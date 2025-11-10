@@ -47,23 +47,8 @@ export interface SpanMetadata {
   [key: string]: any
 }
 
-/**
- * Validate span against JSON✯Atomic schema
- */
-export function validateSpan(span: any): span is Span {
-  if (!span || typeof span !== 'object') return false
-  
-  const required = ['id', 'who', 'did', 'this', 'when', 'status']
-  for (const field of required) {
-    if (!(field in span)) return false
-  }
-  
-  if (!['pending', 'completed', 'failed'].includes(span.status)) {
-    return false
-  }
-  
-  return true
-}
+// Import validator for internal use
+import { validateSpan as _validateSpan } from './validator.js'
 
 /**
  * Create a new span
@@ -111,8 +96,12 @@ export function serializeSpan(span: Span): string {
  */
 export function deserializeSpan(line: string): Span {
   const span = JSON.parse(line)
-  if (!validateSpan(span)) {
+  if (!_validateSpan(span)) {
     throw new Error('Invalid span format')
   }
   return span
 }
+
+// Export validator functions
+export { validateSpan, validateSpanDetailed, validateSignedSpan } from './validator.js'
+export type { ValidationResult, ValidationError, ValidationOptions } from './validator.js'
