@@ -6,12 +6,7 @@
  * @see docs/formula.md §Trajectory Matching - Synthesis
  */
 
-export interface Evidence {
-  id: string
-  score: number
-  content: string
-  metadata?: Record<string, any>
-}
+import type { Evidence } from './matcher'
 
 /**
  * Synthesize response from evidence trajectories

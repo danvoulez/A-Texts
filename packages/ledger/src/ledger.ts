@@ -44,29 +44,17 @@ export async function appendToLedger(
   const line = JSON.stringify(entry) + '\n'
   
   // Runtime detection: Node.js vs Edge Worker
-  if (typeof process !== 'undefined' && process.versions?.node) {
-    // Node.js: append to file
-    await appendToFileNode(ledgerPath, line)
-  } else {
-    // Edge Worker: log to console (no filesystem)
+  // Check for Node.js fs module availability
+  try {
+    // Dynamic import will fail in Edge/browser environments
+    // @ts-ignore - fs/promises may not be available in all environments
+    const fs = await import('fs/promises')
+    await fs.appendFile(ledgerPath, line, 'utf-8')
+    console.log(`[Ledger] Appended to ${ledgerPath}`)
+  } catch (error) {
+    // Edge Worker or browser: log to console
     // In production Edge, send to KV store or R2
     console.log('[Ledger] Append (Edge):', line.substring(0, 100) + '...')
-  }
-}
-
-/**
- * Append to file in Node.js environment
- */
-async function appendToFileNode(path: string, content: string): Promise<void> {
-  try {
-    // Dynamic import to avoid bundling issues in Edge environment
-    const fs = await import('fs/promises')
-    await fs.appendFile(path, content, 'utf-8')
-    console.log(`[Ledger] Appended to ${path}`)
-  } catch (error) {
-    console.error('[Ledger] File append error:', error)
-    // Fallback: log to console
-    console.log('[Ledger] Append (fallback):', content)
   }
 }
 
@@ -141,6 +129,7 @@ export function parseLedgerEntries(ndjson: string): LedgerEntry[] {
  */
 export async function readLedgerFromFile(ledgerPath: string): Promise<LedgerEntry[]> {
   try {
+    // @ts-ignore - fs/promises may not be available in all environments
     const fs = await import('fs/promises')
     const content = await fs.readFile(ledgerPath, 'utf-8')
     return parseLedgerEntries(content)
