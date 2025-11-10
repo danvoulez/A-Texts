@@ -8,6 +8,10 @@
     "build": "tsc",
     "test": "vitest run || echo 'no tests'"
   },
+  "dependencies": {
+    "@arenalab/search": "workspace:*",
+    "@arenalab/utils": "workspace:*"
+  },
   "devDependencies": {
     "typescript": "^5.6.0",
     "vitest": "^2.0.0"
