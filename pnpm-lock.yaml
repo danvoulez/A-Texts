@@ -115,6 +115,13 @@ importers:
         version: 2.1.9
 
   packages/predictor:
+    dependencies:
+      '@arenalab/search':
+        specifier: workspace:*
+        version: link:../search
+      '@arenalab/utils':
+        specifier: workspace:*
+        version: link:../utils
     devDependencies:
       typescript:
         specifier: ^5.6.0
