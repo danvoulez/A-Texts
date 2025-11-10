@@ -1,0 +1,83 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "JSON✯Atomic Span Schema",
+  "description": "Schema for atomic action-outcome spans in ArenaLab. Based on Formula.md specification.",
+  "type": "object",
+  "required": ["id", "who", "did", "this", "when", "status"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for this span"
+    },
+    "who": {
+      "type": "string",
+      "description": "Actor who performed the action"
+    },
+    "did": {
+      "type": "string",
+      "description": "Action performed"
+    },
+    "this": {
+      "type": "string",
+      "description": "Object or target of the action"
+    },
+    "when": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp (ISO 8601)"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["pending", "completed", "failed"],
+      "description": "Execution status"
+    },
+    "if_ok": {
+      "type": "string",
+      "description": "Successful outcome"
+    },
+    "if_not": {
+      "type": "string",
+      "description": "Failure outcome or consequence"
+    },
+    "confirmed_by": {
+      "type": "string",
+      "description": "Verification or confirmation"
+    },
+    "context": {
+      "type": "object",
+      "description": "Contextual information",
+      "properties": {
+        "previous_spans": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "References to previous spans (conversation history)"
+        },
+        "environment": {
+          "type": "string",
+          "description": "Domain or topic (e.g., 'programming', 'geography')"
+        },
+        "stakes": {
+          "type": "string",
+          "enum": ["low", "medium", "high"],
+          "description": "Importance level"
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Additional metadata",
+      "properties": {
+        "llm_provider": { "type": "string" },
+        "model": { "type": "string" },
+        "temperature": { "type": "number" },
+        "tokens_used": { "type": "number" },
+        "quality_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "5D quality meter score (0-100)"
+        }
+      }
+    }
+  }
+}

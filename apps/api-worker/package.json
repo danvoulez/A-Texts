@@ -1,0 +1,16 @@
+{
+  "name": "@arenalab/api-worker",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "build": "esbuild src/index.ts --bundle --format=esm --outfile=dist/index.mjs",
+    "test": "vitest run || echo 'no tests'"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "esbuild": "^0.23.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.0.0"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "dashboard": {
+    "title": "ArenaLab Metrics",
+    "panels": [
+      {
+        "title": "Request Rate",
+        "targets": [
+          {
+            "expr": "rate(arenalab_requests_total[5m])"
+          }
+        ]
+      },
+      {
+        "title": "P95 Latency",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, rate(arenalab_request_duration_seconds_bucket[5m]))"
+          }
+        ]
+      },
+      {
+        "title": "Prediction Confidence",
+        "targets": [
+          {
+            "expr": "avg(arenalab_prediction_confidence)"
+          }
+        ]
+      },
+      {
+        "title": "Fallback Rate",
+        "targets": [
+          {
+            "expr": "rate(arenalab_fallback_total[5m]) / rate(arenalab_requests_total[5m])"
+          }
+        ]
+      }
+    ]
+  }
+}

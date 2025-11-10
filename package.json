@@ -1,0 +1,12 @@
+{
+  "name": "arenalab",
+  "private": true,
+  "packageManager": "pnpm@9",
+  "workspaces": ["apps/*","packages/*"],
+  "scripts": {
+    "build": "pnpm -r run build",
+    "dev": "pnpm -C apps/api-worker run dev",
+    "test": "pnpm -r run test",
+    "lint": "echo 'TODO: add eslint' && exit 0"
+  }
+}

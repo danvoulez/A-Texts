@@ -1,0 +1,12 @@
+name = "arenalab-api"
+main = "dist/index.mjs"
+compatibility_date = "2025-01-01"
+
+[vars]
+API_NAME = "ArenaLab"
+
+[observability]
+enabled = true
+
+[observability.logs]
+level = "info"

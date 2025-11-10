@@ -1,0 +1,39 @@
+groups:
+  - name: arenalab_alerts
+    interval: 30s
+    rules:
+      - alert: HighLatencyP95
+        expr: histogram_quantile(0.95, rate(arenalab_request_duration_seconds_bucket[5m])) > 0.4
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High P95 latency detected"
+          description: "P95 latency is {{ $value }}s (threshold: 0.4s)"
+      
+      - alert: HighErrorRate
+        expr: rate(arenalab_requests_total{status=~"5.."}[5m]) / rate(arenalab_requests_total[5m]) > 0.05
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "High error rate detected"
+          description: "Error rate is {{ $value | humanizePercentage }} (threshold: 5%)"
+      
+      - alert: LowConfidence
+        expr: avg(arenalab_prediction_confidence) < 50
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Low average prediction confidence"
+          description: "Average confidence is {{ $value }}% (threshold: 50%)"
+      
+      - alert: HighFallbackRate
+        expr: rate(arenalab_fallback_total[5m]) / rate(arenalab_requests_total[5m]) > 0.3
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High fallback rate to external LLMs"
+          description: "Fallback rate is {{ $value | humanizePercentage }} (threshold: 30%)"
