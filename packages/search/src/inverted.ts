@@ -42,7 +42,14 @@ export class InvertedIndex {
       if (results === null) {
         results = matches
       } else {
-        results = new Set([...results].filter(id => matches.has(id)))
+        // Intersection: keep only IDs that exist in both sets
+        const intersection = new Set<string>()
+        for (const id of results) {
+          if (matches.has(id)) {
+            intersection.add(id)
+          }
+        }
+        results = intersection
       }
     }
     

@@ -11,7 +11,8 @@ export const calculatorTool = {
       // Note: In production, use a safe math evaluator
       return eval(args.expression)
     } catch (error) {
-      throw new Error(`Calculation error: ${error.message}`)
+      const message = error instanceof Error ? error.message : String(error)
+      throw new Error(`Calculation error: ${message}`)
     }
   },
 }

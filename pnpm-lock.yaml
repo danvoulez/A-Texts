@@ -84,6 +84,10 @@ importers:
         version: 2.1.9
 
   packages/ledger:
+    dependencies:
+      '@arenalab/atomic':
+        specifier: workspace:*
+        version: link:../atomic
     devDependencies:
       typescript:
         specifier: ^5.6.0

@@ -12,11 +12,13 @@ export interface Env {
 export function getEnv(): Env {
   // In Cloudflare Workers, env is passed to handler
   // In Node.js, use process.env
+  // For edge compatibility, check if process exists
+  const proc = (typeof globalThis !== 'undefined' && (globalThis as any).process) || undefined
   
   return {
-    OPENAI_API_KEY: process.env?.OPENAI_API_KEY,
-    ANTHROPIC_API_KEY: process.env?.ANTHROPIC_API_KEY,
-    GEMINI_API_KEY: process.env?.GEMINI_API_KEY,
-    NODE_ENV: process.env?.NODE_ENV || 'development',
+    OPENAI_API_KEY: proc?.env?.OPENAI_API_KEY,
+    ANTHROPIC_API_KEY: proc?.env?.ANTHROPIC_API_KEY,
+    GEMINI_API_KEY: proc?.env?.GEMINI_API_KEY,
+    NODE_ENV: proc?.env?.NODE_ENV || 'development',
   }
 }
