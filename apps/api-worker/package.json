@@ -9,7 +9,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "esbuild": "^0.23.0",
+    "esbuild": "^0.25.0",
     "typescript": "^5.6.0",
     "vitest": "^2.0.0"
   }
