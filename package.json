@@ -7,6 +7,10 @@
     "build": "pnpm -r run build",
     "dev": "pnpm -C apps/api-worker run dev",
     "test": "pnpm -r run test",
-    "lint": "echo 'TODO: add eslint' && exit 0"
+    "lint": "echo 'TODO: add eslint' && exit 0",
+    "pipeline:full": "node scripts/pipeline/run-full-pipeline.js",
+    "pipeline:phase0": "node scripts/pipeline/phase0-prepare.js",
+    "pipeline:phase1": "node scripts/pipeline/phase1-orchestrate.js",
+    "pipeline:help": "node scripts/pipeline/run-full-pipeline.js --help"
   }
 }
